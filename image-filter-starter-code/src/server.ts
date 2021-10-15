@@ -1,5 +1,5 @@
 
-import express, { Router, Request, Response } from 'express';
+import express, { Router, Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
@@ -41,7 +41,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     } 
     else{
       //call filterImageFromURL(image_url) to filter the image
-     const filter_img_path = await filterImageFromURL(image_url.toString()).then((response)=> {
+     const filter_img_path = await filterImageFromURL(image_url).then((response)=> {
         //send the resulting file in the response
         res.sendFile(response);
         res.on('finish', function() {
@@ -52,11 +52,13 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     }
   });
   //! END @TODO1
-  
+ 
+
+
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req: Request, res: Response ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
+    res.send("try GET /filteredimage/image_url=https://upload.wikimedia.org/wikipedia/commons/b/bd/Golden_tabby_and_white_kitten_n01.jpg")
   } );
 
  // 
